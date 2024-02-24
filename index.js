@@ -43,7 +43,11 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // Permitir acceso desde cualquier origen
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), register);
 app.post("/createPost", verifyToken, upload.single("picture"), createPost);
